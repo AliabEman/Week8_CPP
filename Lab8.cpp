@@ -7,8 +7,8 @@
 #include <cmath>
 
 using namespace std;
-static double mean = 0;
-static int dev = 0;
+static jdouble mean = 0;
+static jdouble dev = 0;
 
 JNIEXPORT jdouble JNICALL Java_JavaTextMenu_calculateMean
 (JNIEnv* env, jobject caller, jintArray arr ) {
@@ -18,7 +18,7 @@ JNIEXPORT jdouble JNICALL Java_JavaTextMenu_calculateMean
 
     //to get array elements
     jint *elements = (env)->GetIntArrayElements(arr,NULL);
-
+mean = 0;
     //to iterate over the array
     for(int i = 0; i < len; i++)
     {
@@ -34,7 +34,8 @@ JNIEXPORT jdouble JNICALL Java_JavaTextMenu_calculateMean
 JNIEXPORT jdouble JNICALL Java_JavaTextMenu_calculateSTDDev
         (JNIEnv * env, jobject caller, jintArray arr) {
     int len = env->GetArrayLength(arr);
-
+mean  = 0;
+dev = 0;
     jint *elements = (env)->GetIntArrayElements(arr,NULL);
 
     for(int i = 0; i < len; i++)
@@ -46,8 +47,7 @@ JNIEXPORT jdouble JNICALL Java_JavaTextMenu_calculateSTDDev
     for (int i = 0; i  < len; i++) {
         dev += pow((elements[i] - mean), 2);
     }
-    dev = dev / len;
-    dev = pow(dev, 1/2);
 
-    return dev;
+    return sqrt(dev/(len-1));
+
 }
